@@ -8,12 +8,9 @@ st.set_page_config(page_title="My App", page_icon="logo.JPG")
 # st.header("This is a header with a divider", divider="gray")
 tab1, tab2, tab3 = st.tabs(["Home","Health Index", "AboutUS"])
 with tab1:
-    
-    col1, col2, col3 = st.columns([1, 4, 1])
-    with col1:
-        st.image("logo.JPG", width = 100)
-    # with col2:
-        # st.image("download.JPG", width = 100)
+    from PIL import Image
+    photo = Image.open("logo.JPG")
+    st.image(photo, width = 100)
 
     st.write("""
         ### AI Predictive Manintenance (APM)
