@@ -8,7 +8,7 @@ st.set_page_config(page_title="My App", page_icon="logo.jpg")
 # st.header("This is a header with a divider", divider="gray")
 tab1, tab2, tab3 = st.tabs(["Home","Health Index", "AboutUS"])
 with tab1:
-    st.image("logo.JPG", width = 100)
+    # st.image("logo.JPG", width = 100)
     st.write("""
         ### AI Predictive Manintenance (APM)
     """)
