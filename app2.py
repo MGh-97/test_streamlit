@@ -9,8 +9,8 @@ st.set_page_config(page_title="My App", page_icon="logo.JPG")
 tab1, tab2, tab3 = st.tabs(["Home","Health Index", "AboutUS"])
 with tab1:
     from PIL import Image
-    photo = Image.open("logo.JPG")
-    st.image(photo, width = 100)
+    photo1 = Image.open("logo.jpg")
+    st.image(photo1, width = 100)
 
     st.write("""
         ### AI Predictive Manintenance (APM)
