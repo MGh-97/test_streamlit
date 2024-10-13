@@ -69,7 +69,7 @@ protobuf==5.28.0
 psutil==6.0.0
 pure_eval==0.2.3
 pyarrow==17.0.0
-pycaret==3.2
+pycaret==3.3.2
 pydeck==0.9.1
 Pygments==2.18.0
 pyod==2.0.2
