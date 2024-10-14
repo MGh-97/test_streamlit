@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import joblib
+import plotly.graph_objects as go
 
 st.set_page_config(page_title="My App", page_icon="logo.JPG")
 # st.header("This is a header with a divider", divider="gray")
@@ -11,17 +12,13 @@ with tab1:
     from PIL import Image
     photo1 = Image.open("logo.jpg")
     st.image(photo1, width = 100)
-
     st.write("""
-        ### AI Predictive Manintenance (APM)
+    ## Industrial Transformer Health Prediction(AI)
     """)
-    st.write("""
-    ## Industrial Transformer Health Prediction
-    """)
-    # uploaded_file = st.file_uploader("choose an image ...", type =  ['JPG', 'jpeg', 'png'])
     from PIL import Image
     photo = Image.open("trans.jpeg")
     st.image(photo, width = 300)
+    # uploaded_file = st.file_uploader("choose an image ...", type =  ['JPG', 'jpeg', 'png'])
 
     st.sidebar.image('data-entry-icon.png', width = 200, )
     st.sidebar.header('User Input Parameters')
@@ -65,7 +62,7 @@ with tab1:
             ]
 
     df = user_input_features()
-    st.subheader('user input parameters')
+    st.subheader('AI Predictive Manintenance..user input parameters')
     st.write(df)
     st.bar_chart(df, horizontal = True)
 
@@ -74,22 +71,64 @@ with tab1:
         row = df.values.flatten()
         X = pd.DataFrame([row], columns=columns)
         prediction = model.predict(X)[0]
-        if 85<=prediction<=100:
-            st.success(" Very Good ----- More than 15 years\n(Normal Maintenance)")
-        elif 70<=prediction <85:
-            st.success("good")
-            st.write("More than 10 years\n Normal Maintenance")
-        elif 50<= prediction< 70:
-            st.warning('Fair ------ Expected Lifetime (From 3-10 years)')
-        elif 30<= prediction < 50:
-            st.error("poor")
-        elif 0<=prediction<30:
-            st.error("Very Poor-------Immediately assess risk; replace or rebuild based on assessment")
+        col1, col2 = st.columns([1, 1])
+        steps = [{'range': [0, 30], 'color': "Red"},
+                {'range': [30, 50], 'color': "Orange"},
+                {'range': [50, 70], 'color':"yellow"},
+                {'range': [70, 85], 'color': "Lime"},
+                {'range': [85, 100+1], 'color': 'Green'}
+                ]
+        fig = go.Figure(go.Indicator(
+                        mode = "gauge+number",
+                        value = prediction,
+                        title = {'text': "Trasformer Health Index (%)"},
+                        gauge = {
+                            'axis': {'range': [0, 100]},
+                            'bar': {'color': "Crimson"},
+                            'steps' : [
+                                {'range': [0, 30], 'color': "Red"},
+                                {'range': [30, 50], 'color': "Orange"},
+                                {'range': [50, 70], 'color':"yellow"},
+                                {'range': [70, 85], 'color': "Lime"},
+                                {'range': [85, 100+1], 'color': 'Green'}]
+                        }))
+
+        st.markdown("""
+            <style>
+            .col-border {
+                border: 2px solid #000;
+                padding: 10px;
+                margin: 10px;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+        with col1:
+            # st.markdown('<div class="col-border">Content in Column 1</div>', unsafe_allow_html=True)
+            st.write("\n"*5)
+            st.write("\n"*5)
+            st.write("\n"*5)
+            st.write("\n"*5)
+            st.write("\n"*5)
+            if 85<=prediction<=100:
+                st.success(" Very Good ----- Expected Lifetime : More than 15 years.........Requirements : Normal Maintenance")
+            elif 70<=prediction <85:
+                st.success("good.......Expected Liffetime: More than 10 years Normal.......Requirement :  Maintenance")
+            elif 50<= prediction< 70:
+                st.warning('Fair ......Expected Lifetime :From 3-10 years.......Requirements: Increase diagnostic testing, possible remedial work or replacement needed depending on criticality')
+            elif 30<= prediction < 50:
+                st.error("poor.......Expected Lifetime : Less than 3 year........Requirements : Start planning process to replace or rebuild considering risk and consequences of failure")
+            elif 0<=prediction<30:
+                st.error("Very Poor........Expected Lifetime : Near to the end of life..........Requirements : Immediately assess risk; replace or rebuild based on assessment")
+        with col2:
+            # st.markdown('<div class="col-border">Content in Column 2</div>', unsafe_allow_html=True)
+            fig.update_layout(width = 300, height = 300)
+            st.plotly_chart(fig)
         return prediction
+
     # trigger = st.button('Predict', on_click = predict)
 
     st.subheader('Prediction Probability')
-    st.write(predict())
+    predict()
 
 with tab2:
     st.image("expected-lifetime.PNG", width = 400)
