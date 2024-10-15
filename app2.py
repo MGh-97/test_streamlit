@@ -5,7 +5,6 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 import plotly.graph_objects as go
 
-"authorization" : st.secret["auth_key"]
 st.set_page_config(page_title="My App", page_icon="logo.JPG")
 # st.header("This is a header with a divider", divider="gray")
 tab1, tab2, tab3 = st.tabs(["Home","Health Index", "AboutUS"])
