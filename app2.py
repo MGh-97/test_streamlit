@@ -131,7 +131,8 @@ with tab1:
     predict()
 
 with tab2:
-    st.image("expected-lifetime.PNG", width = 400)
+    photo3 = Image.open("expected-lifetime.png")
+    st.image(photo3, width = 400)
 
 with tab3:
     # About us
@@ -167,7 +168,8 @@ with tab3:
 
              Phone: +982188742844
     """)
-    st.image('logo.JPG', width = 100)
+    photo3 = Image.open("logo.jpg")
+    st.image(photo3, width = 100)
 
 
 ## main
