@@ -66,7 +66,7 @@ with tab1:
     st.write(df)
     st.bar_chart(df, horizontal = True)
 
-    model = joblib.load('Trans-Health.pkl')
+    model = joblib.load('Trans_Health.pkl')
     def predict():
         row = df.values.flatten()
         X = pd.DataFrame([row], columns=columns)
