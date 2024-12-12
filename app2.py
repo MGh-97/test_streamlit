@@ -1,37 +1,41 @@
 import streamlit as st
+import pycaret
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="My App", page_icon="logo.JPG")
+st.set_page_config(page_title="Fanavaran AI", page_icon="logo.JPG")
 # st.header("This is a header with a divider", divider="gray")
-tab1, tab2, tab3 = st.tabs(["Home","Health Index", "AboutUS"])
+tab1, tab2, tab3 = st.tabs(["Home","Health Index information", "AboutUS"])
 with tab1:
     from PIL import Image
-    photo1 = Image.open("logo.jpg")
-    st.image(photo1, width = 100)
+    photo = Image.open("logo.jpg")
+    st.image(photo, width = 100)
     st.write("""
     ## Industrial Transformer Health Prediction(AI)
     """)
-    from PIL import Image
-    photo = Image.open("trans.jpeg")
-    st.image(photo, width = 300)
+    col1, col2 = st.columns([1, 1])
+    with col1:
+        photo1 = Image.open("R.jpeg")
+        st.image(photo1, width=300)
+    with col2:
+        photo2 = Image.open("thermography-inspection-transformator.jpg")
+        st.image(photo2, width= 300)
     # uploaded_file = st.file_uploader("choose an image ...", type =  ['JPG', 'jpeg', 'png'])
-
-    st.sidebar.image('data-entry-icon.png', width = 200, )
+    st.sidebar.image('data-entry-icon.png', width = 200)
     st.sidebar.header('User Input Parameters')
 
     def user_input_features():
-        Hydrogen = st.sidebar.slider('Hydrogen', 0, 25000, 500)
-        Oxigen = st.sidebar.slider('Oxigen', 0, 250000, 100)
-        Nitrogen = st.sidebar.slider('Nitrogen', 0, 100000, 40)
-        Methane = st.sidebar.slider('Methane', 0, 10000, 1577)
-        CO = st.sidebar.slider('CO', 0, 2000, 20)
-        CO2 = st.sidebar.slider('CO2', 0, 30000, 20)
-        Ethylene = st.sidebar.slider('Ethylene', 0, 20000, 100)
-        Ethane = st.sidebar.slider('Ethane', 0, 6000, 40)
+        Hydrogen = st.sidebar.slider('Hydrogen(ppm)', 0, 25000, 500)
+        Oxigen = st.sidebar.slider('Oxigen(ppm)', 0, 250000, 100)
+        Nitrogen = st.sidebar.slider('Nitrogen(ppm)', 0, 100000, 40)
+        Methane = st.sidebar.slider('Methane(ppm)', 0, 10000, 1577)
+        CO = st.sidebar.slider('CO(ppm)', 0, 2000, 20)
+        CO2 = st.sidebar.slider('CO2(ppm)', 0, 30000, 20)
+        Ethylene = st.sidebar.slider('Ethylene(ppm)', 0, 20000, 100)
+        Ethane = st.sidebar.slider('Ethane(ppm)', 0, 6000, 40)
         Acethylene = st.sidebar.slider('Acethylene', 0, 10000, 50)
         DBDS = st.sidebar.slider('DBDS', 0, 300, 100)
         Power_factor = st.sidebar.slider('Power_factor', 0, 100, 2)
@@ -60,24 +64,17 @@ with tab1:
             'DBDS','Power factor','Interfacial V',
             'Dielectric rigidity','Water content'
             ]
-
     df = user_input_features()
     st.subheader('AI Predictive Manintenance..user input parameters')
     st.write(df)
     st.bar_chart(df, horizontal = True)
 
-    model = joblib.load('Trans-Health.pkl')
+    model = joblib.load('Trans_Health.pkl')
+
     def predict():
         row = df.values.flatten()
         X = pd.DataFrame([row], columns=columns)
         prediction = model.predict(X)[0]
-        col1, col2 = st.columns([1, 1])
-        steps = [{'range': [0, 30], 'color': "Red"},
-                {'range': [30, 50], 'color': "Orange"},
-                {'range': [50, 70], 'color':"yellow"},
-                {'range': [70, 85], 'color': "Lime"},
-                {'range': [85, 100+1], 'color': 'Green'}
-                ]
         fig = go.Figure(go.Indicator(
                         mode = "gauge+number",
                         value = prediction,
@@ -93,16 +90,8 @@ with tab1:
                                 {'range': [85, 100+1], 'color': 'Green'}]
                         }))
 
-        st.markdown("""
-            <style>
-            .col-border {
-                border: 2px solid #000;
-                padding: 10px;
-                margin: 10px;
-            }
-            </style>
-        """, unsafe_allow_html=True)
-        with col1:
+        col3, col4 = st.columns([1, 1])
+        with col3:
             # st.markdown('<div class="col-border">Content in Column 1</div>', unsafe_allow_html=True)
             st.write("\n"*5)
             st.write("\n"*5)
@@ -119,20 +108,19 @@ with tab1:
                 st.error("poor.......Expected Lifetime : Less than 3 year........Requirements : Start planning process to replace or rebuild considering risk and consequences of failure")
             elif 0<=prediction<30:
                 st.error("Very Poor........Expected Lifetime : Near to the end of life..........Requirements : Immediately assess risk; replace or rebuild based on assessment")
-        with col2:
+        with col4:
             # st.markdown('<div class="col-border">Content in Column 2</div>', unsafe_allow_html=True)
             fig.update_layout(width = 300, height = 300)
             st.plotly_chart(fig)
         return prediction
 
     # trigger = st.button('Predict', on_click = predict)
-
     st.subheader('Prediction Probability')
     predict()
 
 with tab2:
-    photo3 = Image.open("expected-lifetime.png")
-    st.image(photo3, width = 400)
+    photo2 = Image.open("expected-lifetime.png")
+    st.image(photo2, width = 400)
 
 with tab3:
     # About us
@@ -157,7 +145,6 @@ with tab3:
     - Customer Satisfaction
     - Excellence
     """)
-
     # st.image("team_photo.jpg")  # Replace with your team photo's path
     st.write("""
             **Contact Us :**
