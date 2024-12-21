@@ -96,7 +96,7 @@ if st.session_state.authenticated:
         st.write(df)
         st.bar_chart(df, horizontal = True)
 
-        model = joblib.load('Trans_Health.pkl')
+        model = joblib.load('Trans-Health.pkl')
 
         def predict():
             row = df.values.flatten()
