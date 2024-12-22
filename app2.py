@@ -1,4 +1,3 @@
-# import cv2
 import streamlit as st
 import pycaret
 import numpy as np
@@ -28,11 +27,6 @@ def authenticate(username, password):
 
 # Application Interface
 if st.session_state.authenticated:
-    # st.title("Welcome to the App!")
-    # st.write("You are logged in!")
-
-    # st.subheader("Main Application Section")
-    # st.write("This is where the main app content will go.")
 
     tab1, tab2, tab3 = st.tabs(["Home","Health Index information", "AboutUS"])
 
@@ -96,7 +90,7 @@ if st.session_state.authenticated:
         st.write(df)
         st.bar_chart(df, horizontal = True)
 
-        model = joblib.load('Trans_Health.pkl')
+        model = joblib.load('Trans-Health.pkl')
 
         def predict():
             row = df.values.flatten()
