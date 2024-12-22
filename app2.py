@@ -1,5 +1,5 @@
 import streamlit as st
-import pycaret
+# import pycaret
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
@@ -193,4 +193,3 @@ else:
     # Login button
     if st.button("Login"):
         authenticate(input_username, input_password)
-        # st.experimental_rerun()
