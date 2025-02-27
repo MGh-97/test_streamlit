@@ -6,7 +6,7 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 import plotly.graph_objects as go
 
-st.set_page_config(page_title="Fanavaran AI", page_icon="logo.JPG")
+st.set_page_config(page_title="Fanavaran AI PM", page_icon="logo.JPG")
 # Predefined username and password (for simplicity)
 USERNAME = "admin"
 PASSWORD = "password123"
